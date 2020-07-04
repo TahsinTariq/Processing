@@ -84,3 +84,5 @@ application.windows64/*
 .DS_Store
 *.txt
 libraries/*
+.tmp
+Exercise*/*
