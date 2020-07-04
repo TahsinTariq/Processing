@@ -77,14 +77,16 @@ examples/*
 DecodeIdent/*
 *.zip
 modes/*
-application.windows32/*
-application.windows64/*
+tools/*
+*/application.windows32/*
+*/application.windows64/*
 
 # misc
 .DS_Store
 *.txt
 libraries/*
-.tmp
+*.tmp
 Exercise*/*
-.mov.tmp
-.mp4.mov.tmp
+*.mov.tmp
+*.mp4.mov.tmp
+*.tmp
