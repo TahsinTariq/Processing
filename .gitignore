@@ -74,6 +74,7 @@
 
 # folders
 examples/*
+DecodeIdent/*
 *.zip
 modes/*
 application.windows32/*
