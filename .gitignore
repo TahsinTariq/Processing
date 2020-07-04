@@ -86,3 +86,5 @@ application.windows64/*
 libraries/*
 .tmp
 Exercise*/*
+.mov.tmp
+.mp4.mov.tmp
