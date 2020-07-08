@@ -90,3 +90,5 @@ Exercise*/*
 *.mov.tmp
 *.mp4.mov.tmp
 *.tmp
+*.csv
+*.jar

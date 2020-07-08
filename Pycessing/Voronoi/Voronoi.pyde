@@ -14,15 +14,15 @@ def draw():
         v.update()
     else:
         save("outputs/" + str(hour()) + "_" + str(minute()) +
-             "_" + str(second()) + "_" + str(millis()) + ".png")
+             "_" + str(second()) + "_" + str(millis()) + ".jpg")
         v.hue_ = setHueRange()
         v.sat_mid = setSatMid()
         v.bri_mid = setBriMid()
         v.preCalc()
         # noLoop()
     v.show()
-    
-    
+
+
 def setHueRange():
     return (random(360), random(360))
 def setSatMid():

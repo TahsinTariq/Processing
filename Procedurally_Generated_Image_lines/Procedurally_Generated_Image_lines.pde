@@ -6,7 +6,8 @@ void settings() {
   img = loadImage("ujan.jpg");
   size(img.width, img.height, P2D);
 }
-void setup() {  surface.setLocation(-1920,-400);
+void setup() {  
+  //surface.setLocation(-1920,-400);
 
   background(255);
 

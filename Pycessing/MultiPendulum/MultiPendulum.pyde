@@ -3,14 +3,16 @@ import os
 from pendulum_group import *
 l = 200
 number = 4
+rec = False
 def setup():
     blendMode(MULTIPLY)
     # size(640,480)
     fullScreen()
     global c, videoExport
-    dst = str(hour()) + "_" + str(minute()) +"_" + str(second()) + "_" + str(millis())
-    videoExport = VideoExport(this,dst+".mp4")
-    videoExport.startMovie()
+    if rec:
+        dst = str(hour()) + "_" + str(minute()) +"_" + str(second()) + "_" + str(millis())
+        videoExport = VideoExport(this,dst+".mp4")
+        videoExport.startMovie()
     c = []
     c .append(funky(PVector(width / 2, height / 2), number, l))
     colorMode(HSB, 360, 100, 100)
@@ -20,7 +22,8 @@ def draw():
     strokeWeight(2)
     for i in c:
         i.show()
-    videoExport.saveFrame()
+    if rec:
+        videoExport.saveFrame()
 def keyPressed():
     if key == 's':
         save("outputs/" + str(hour()) + "_" + str(minute()) +
