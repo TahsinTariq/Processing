@@ -1,6 +1,7 @@
 add_library('VideoExport')
 from ball import *
 n = 50
+rec = True
 def settings():
     global img
     img = loadImage("shaan.jpg")
@@ -8,16 +9,17 @@ def settings():
 def setup():
     background(255)
     global b, videoExport
-    dst = str(hour()) + "_" + str(minute()) +"_" + str(second()) + "_" + str(millis())
-    videoExport = VideoExport(this,dst+".mp4")
-    videoExport.startMovie()
-    b = Ball(PVector(660, 0), 2, vel_x = -0.5, vel_y = 10)
+    if rec == True:
+        dst = str(hour()) + "_" + str(minute()) +"_" + str(second()) + "_" + str(millis())
+        videoExport = VideoExport(this,dst+".mp4")
+        videoExport.startMovie()
+    b = Ball(PVector(660, 0), 2, vel_x = -0.5, vel_y = 5)
     
 def draw():
     background(255)
     # image(img, 0,0)
     b.update()
-    b.show()
+    
     Y = b.pos.y
     X = b.pos.x
     # Y = mouseY
@@ -34,15 +36,19 @@ def draw():
     for j in range(n):
         l = 0
         beginShape(LINES)
-        for i in range(width):
+        for i in range(4*width):
             # ellipse(int(i), int(map(j, 0, n, 0, height)),5,5)
-            c = img.get(int(i), int(map(j, 0, n, 0, height)))
+            c = img.get(i/4, int(map(j, 0, n, 0, height)))
             l += (255-blue(c))/255/4.0
             m = (255-red(c))/255.0
-            vertex(i, map((j+0.5)*height/n, 0, height, 0, height)+sin(l*PI/x)*y*decel(m))
+            w = (255-green(c))/255.0
+            stroke(green(c))
+            # strokeWeight(map(w, 0,255, 0,3))
+            vertex(i/4, map((j+0.5)*height/n, 0, height, 0, height)+sin(l*PI/x)*y*decel(m))
     endShape()
-    videoExport.saveFrame()
-    
+    if rec == True:
+        videoExport.saveFrame()
+    # b.show()
 def decel(i):
     return (1-(i-1)*(i-1))
 
