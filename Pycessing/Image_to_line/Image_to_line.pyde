@@ -1,7 +1,7 @@
 add_library('VideoExport')
 from ball import *
 n = 50
-rec = True
+rec = False
 def settings():
     global img
     img = loadImage("shaan.jpg")
@@ -9,7 +9,7 @@ def settings():
 def setup():
     background(255)
     global b, videoExport
-    if rec == True:
+    if rec:
         dst = str(hour()) + "_" + str(minute()) +"_" + str(second()) + "_" + str(millis())
         videoExport = VideoExport(this,dst+".mp4")
         videoExport.startMovie()
@@ -18,12 +18,12 @@ def setup():
 def draw():
     background(255)
     # image(img, 0,0)
-    b.update()
+    # b.update()
     
-    Y = b.pos.y
-    X = b.pos.x
-    # Y = mouseY
-    # X = mouseX
+    # Y = b.pos.y
+    # X = b.pos.x
+    Y = mouseY
+    X = mouseX
     y = map(Y, 0,height, 0,100)
     if X>width/2:
         x = map(X, width/2,width, 0.5,50)
@@ -46,7 +46,7 @@ def draw():
             # strokeWeight(map(w, 0,255, 0,3))
             vertex(i/4, map((j+0.5)*height/n, 0, height, 0, height)+sin(l*PI/x)*y*decel(m))
     endShape()
-    if rec == True:
+    if rec:
         videoExport.saveFrame()
     # b.show()
 def decel(i):
