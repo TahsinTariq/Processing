@@ -35,6 +35,6 @@ class funky:
             #     line(temp2.x, temp2.y, temp3.x, temp3.y)
                 
             parentRadius*=0.90
-            self.a[i] += self.angle[i]*10
+            self.a[i] += self.angle[i]*5
         return pts
             
