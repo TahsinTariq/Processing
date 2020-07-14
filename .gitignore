@@ -92,3 +92,5 @@ Exercise*/*
 *.tmp
 *.csv
 *.jar
+*.xml
+*.vlw

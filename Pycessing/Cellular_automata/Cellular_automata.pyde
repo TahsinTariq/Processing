@@ -10,9 +10,10 @@ def setup():
     if rec:
         dst = str(hour()) + "_" + str(minute()) +"_" + str(second()) + "_" + str(millis())
         videoExport = VideoExport(this,dst+".mp4")
-        videoExport.startMovie()
         videoExport.setQuality(100, 128)
-        videoExport.setFrameRate(2)
+        # videoExport.setFrameRate(2)
+        videoExport.startMovie()
+        
     global string1
     string1 = []
     for i in range(n):
@@ -23,7 +24,12 @@ def setup():
             # if 30>i>20 and 30>j>20:
             #     string1[i].append(int(random(2)))
             # else: string1[i].append(1)
-            string1[i].append(1)
+            string1[i].append(0)
+    string1[0][1] = 1
+    string1[1][2] = 1
+    string1[2][1] = 1
+    string1[2][2] = 1
+    string1[2][3] = 1
     
 def draw():
     global string1, s
@@ -58,6 +64,6 @@ def keyPressed():
     if key == 's':
         save("outputs/" + str(hour()) + "_" + str(minute()) +
              "_" + str(second()) + "_" + str(millis()) + ".jpg")
-    if key == 'q':
+    if key == 'q' and rec:
         videoExport.endMovie()
         exit()                

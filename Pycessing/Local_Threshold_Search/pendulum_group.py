@@ -33,7 +33,8 @@ class funky:
             pts.append(temp2)
             # if i>1:
             #     line(temp2.x, temp2.y, temp3.x, temp3.y)
+                
             parentRadius*=0.90
-            self.a[i] += self.angle[i]
+            self.a[i] += self.angle[i]*10
         return pts
             
