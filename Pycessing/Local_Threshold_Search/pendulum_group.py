@@ -1,5 +1,5 @@
 class funky:
-    def __init__(self,position, childNumber, parentRadius):
+    def __init__(self,position, childNumber, parentRadius, angleMultiplier = 1):
         self.a = []
         self.angle = []
         self.colors = []
@@ -9,8 +9,8 @@ class funky:
         colorMode(HSB, 360,100,100)
         for i in range(self.childNumber):
             self.a.append(random(-500,500))
-            self.angle.append(random(-0.5,0.5))
-            self.colors.append(color(random(360), random(50,70),random(70,90)))
+            self.angle.append(random(-0.5,0.5) * angleMultiplier)
+            self.colors.append(color(random(-50,75)+300, random(70,90),random(85,95)))
     def show(self):
         pts = self.version1()
         noFill()
@@ -35,6 +35,6 @@ class funky:
             #     line(temp2.x, temp2.y, temp3.x, temp3.y)
                 
             parentRadius*=0.90
-            self.a[i] += self.angle[i]*5
+            self.a[i] += self.angle[i]
         return pts
             
