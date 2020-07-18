@@ -4,7 +4,7 @@ class funky:
         self.angle = []
         self.colors = []
         self.position = position
-        self.childNumber = childNumber
+        self.childNumber = childNumber+1
         self.parentRadius = parentRadius
         colorMode(HSB, 360,100,100)
         for i in range(self.childNumber):
@@ -14,10 +14,10 @@ class funky:
     def show(self):
         pts = self.version1()
         noFill()
-        beginShape()
-        for p in pts:
-            vertex(p.x, p.y)
-        endShape()
+        for i in range(len(pts)-1):
+            stroke(self.colors[i], 30)
+            if i>2:
+                line(pts[i].x, pts[i].y, pts[i+1].x, pts[i+1].y)
     
     def version1(self):
         parentRadius = self.parentRadius
@@ -28,11 +28,7 @@ class funky:
             temp = PVector(sin(radians(-self.a[i]))*parentRadius, cos(radians(-self.a[i]))*parentRadius)
             temp2 = PVector(temp3.x, temp3.y)
             temp3.add(temp)
-            stroke(self.colors[i], 30)
-            noFill()
             pts.append(temp2)
-            # if i>1:
-            #     line(temp2.x, temp2.y, temp3.x, temp3.y)
             parentRadius*=0.90
             self.a[i] += self.angle[i]
         return pts
