@@ -20,7 +20,7 @@ def setup():
     #     rol.append(random(PI))
 def draw():
     s = ran * 50
-    # strokeWeight(5)
+    strokeWeight(5)
     background(0,0,100)
     for i in inst:
         i.update()

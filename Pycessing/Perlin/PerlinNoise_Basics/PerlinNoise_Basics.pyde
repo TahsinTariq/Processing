@@ -1,4 +1,4 @@
-start = 0
+start = 50
 def setup():
     size(640, 480)
     # fullScreen()
@@ -13,24 +13,26 @@ def draw():
     
     
 def PerlinIn2D():
-    n = 80
+    n = 40
     inc = width/n
     global off1, off2, start
-    off1 = start
-    # off1 = 0
+    # off1 = start
+    off1 = 0
     
     # background(0, 0,100)
     # noFill()
-    noStroke()
+    # noStroke()
     # fill(0,0,0)
     for x in range(0, width, inc):
         off2 = 0
         for y in range(0, width, inc):
-            f = map(noise(off2, off1), 0,1, 0, 100)
+            f = map(noise(off1, off2, start), 0,1, 0, 100)
+            # f = int(map(f, 0,100,0,2))*100
             fill(0,0,f)
             rect(x, y, inc, inc)
-            off1 += 5
-    start+=0.005
+            off2 +=0.05
+        off1+=0.05
+    # start+=0.05
     
 def PerlinIn1D():
     global off1, start
