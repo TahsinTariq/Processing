@@ -4,4 +4,7 @@ class block:
         self.pval = self.val
         if isinstance(self.val, (int, float)):
             self.policy = "N"
+        # self.actions
+        # self.utility
+        # self.rewards
         

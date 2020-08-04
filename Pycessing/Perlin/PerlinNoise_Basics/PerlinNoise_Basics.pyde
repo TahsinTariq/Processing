@@ -4,7 +4,7 @@ def setup():
     # fullScreen()
     colorMode(HSB, 360, 100, 100)
     background(0, 0,100)
-    noiseSeed(1400)
+    # noiseSeed(1400)
 def draw():
     # PerlinIn1D()
     PerlinIn2D()
@@ -13,26 +13,30 @@ def draw():
     
     
 def PerlinIn2D():
-    n = 40
+    n = 160
     inc = width/n
     global off1, off2, start
     # off1 = start
-    off1 = 0
+    off1 = map(mouseX, 0, width, 0, -10)
     
     # background(0, 0,100)
     # noFill()
-    # noStroke()
+    noStroke()
     # fill(0,0,0)
     for x in range(0, width, inc):
-        off2 = 0
+        off2 = map(mouseY, 0, height, 0, -10)
         for y in range(0, width, inc):
-            f = map(noise(off1, off2, start), 0,1, 0, 100)
+            # f = map(noise(off1,off2, start), 0,1, 0, 100)
+            f = map(noise(cos(off1), cos(off2), (start)), 0,1, 0, 100)
             # f = int(map(f, 0,100,0,2))*100
-            fill(0,0,f)
+            f = int(map(f, 0,100,0,8))
+            f = map(f, 0,8, -20, 300)
+            # fill(0,0,f)
+            fill(f, 100, 100)
             rect(x, y, inc, inc)
             off2 +=0.05
         off1+=0.05
-    # start+=0.05
+    start+=0.05
     
 def PerlinIn1D():
     global off1, start
