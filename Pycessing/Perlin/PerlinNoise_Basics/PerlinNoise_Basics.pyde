@@ -1,13 +1,14 @@
 start = 50
 def setup():
-    size(640, 480)
-    # fullScreen()
+    # size(640, 480)
+    fullScreen()
     colorMode(HSB, 360, 100, 100)
     background(0, 0,100)
     # noiseSeed(1400)
 def draw():
     # PerlinIn1D()
-    PerlinIn2D()
+    PerlinIn1D_2()
+    # PerlinIn2D()
     
     
     
@@ -60,3 +61,27 @@ def PerlinIn1D():
     vertex(width, height/2)
     start+=0.005
     endShape()
+    
+def PerlinIn1D_2():
+    global off1, start
+    off1 = start
+    off2 = 0
+    background(190, 90,100)
+    noFill()
+    noStroke()
+    for y in range(height/20):
+        fill(140,90,  y*5)
+        beginShape()
+        vertex(0, height)
+        for x in range(width):
+            hpt = map(noise(off1, off2), 0, 1, 0, height/2)
+            hpt =constrain(hpt, 0, height/2)
+            vertex(x, hpt+y*20)
+            off1 += 0.005
+        off2 += 0.005
+        vertex(width, height)
+        endShape()
+    # vertex(width, height)
+    # vertex(width, height/2)
+    start+=0.005
+    # endShape()

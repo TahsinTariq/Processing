@@ -23,9 +23,9 @@ def draw():
     for i in range(0, w, rez):
         for j in range(0, h, rez):
             fill(random(255))
-            if agrid[j/rez][i/rez].val =="p":
+            if agrid[j/rez][i/rez].val ==1:
                 fill(0,0, 255)
-            elif agrid[j/rez][i/rez].val =="n":
+            elif agrid[j/rez][i/rez].val ==-1:
                 fill(255,0,0)
             elif agrid[j/rez][i/rez].val =="b":
                 fill(150,150,250)
@@ -40,7 +40,7 @@ def draw():
             translate(rez/2, rez/2)
             text(agrid[j/rez][i/rez].val, i, j)
             popMatrix()
-    agrid = update(agrid)
+    # agrid = update(agrid)
     
 def update(agrid):
     temp = agrid
