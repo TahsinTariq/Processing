@@ -4,6 +4,11 @@ grid = [
     [0, 'b', 0, "n"],
     [0,  0,  0,  0]
 ]
+UP = 0
+DOWN = 1
+LEFT = 2
+RIGHT = 3
+actions = [UP, DOWN, LEFT, RIGHT]
 def settings():
     global grid, w, h, rez
     rez = 100
@@ -23,9 +28,9 @@ def draw():
     for i in range(0, w, rez):
         for j in range(0, h, rez):
             fill(random(255))
-            if agrid[j/rez][i/rez].val ==1:
+            if agrid[j/rez][i/rez].val =='p':
                 fill(0,0, 255)
-            elif agrid[j/rez][i/rez].val ==-1:
+            elif agrid[j/rez][i/rez].val =="n":
                 fill(255,0,0)
             elif agrid[j/rez][i/rez].val =="b":
                 fill(150,150,250)
@@ -40,28 +45,28 @@ def draw():
             translate(rez/2, rez/2)
             text(agrid[j/rez][i/rez].val, i, j)
             popMatrix()
-    # agrid = update(agrid)
+    agrid = update(agrid)
     
 def update(agrid):
     temp = agrid
     l = 0.9
-    for i in range(len(temp)):
-        for j in range(len(temp[0])):
-            if isinstance(temp[i][j].val, (int, float)):
+    n_x = len(temp)
+    n_y = len(temp[0])
+    for i in range(n_x):
+        for j in range(n_y):
+            if temp[i][j].isDigit:
                 temp[i][j].pval = temp[i][j].val
                 c = 0
                 # temp[i][j].val = random(1)
-                for k in range(-1, 2):
-                    for l in range(-1, 2):
-                        if k != l or k==-1 and l == 1 or k == 1 and l == -1:   
-                            try:
-                                c = max(c, bellman(temp[i][j].pval))
-                            except:
-                                pass
-                temp[i][j].val = c
+                for a in actions:
+                    for t in transitions:
+                    c = act(temp, (i,j), a)
+                #             pass
+                # temp[i][j].val = c
                 
     return temp
             
 def bellman(T, current, l, side):
     return T + (current + l * side)
-             
+
+euclidean = lambda x1,y1,x2,y2: ((x1-x2)**2 + (y1-y2)**2)**0.5
