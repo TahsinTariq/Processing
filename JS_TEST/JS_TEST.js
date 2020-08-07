@@ -1,70 +1,43 @@
-let sketch = function(p) {
-  let rows = 40 * 2;
-  let radius = 400 * 1.2;
-  let min_length = 10;
-  let max_length = 80;
-  let space = 10;
-  let stripes = [];
-  let colors;
-  let tick = 0;
+/*
+ * @name Sine Cosine
+ * @description Linear movement with sin() and cos().
+ * Numbers between 0 and PI*2 (TWO_PI which angles roughly 6.28)
+ * are put into these functions and numbers between -1 and 1 are returned.
+ * These values are then scaled to produce larger movements.
+ */
+let angle1 = 0;
+let angle2 = 0;
+let scalar = 70;
 
-  p.setup = function() {
-    p.createCanvas(1000,1000);
-    p.stroke(0);
-    p.noFill();
-    //p.frameRate(10);
-
-    for (var i = 0; i < rows; i++) {
-      let ypos = ((i + 0.5)/rows) * (radius * 2) - radius;
-      let row_length = 2 * p.sqrt((radius * radius) - (ypos * ypos));
-      add_stripe_row(ypos, row_length);
-    }
-  }
-
-  p.draw = function() {
-    p.clear();
-    p.translate(p.width / 2, p.height / 2);
-    p.rotate(- p.PI / 12);
-    for (var s in stripes) {
-      var stripe = stripes[s];
-      p.strokeWeight(12);
-      p.stroke(22,23,22);
-      // if(p.noise(5000 + stripe.start/200 + tick / 20, 5000 + stripe.y/200, tick/400) > .45)
-      //   p.line(stripe.start, stripe.y, stripe.end, stripe.y);
-      // if(p.noise(5000 + stripe.start/200 + tick / 20, 5000 + stripe.y/200, tick/400) > .4) {
-      //   //p.stroke(245,200,40);
-      //   p.stroke(22,23,22,40);
-      //   p.line(stripe.start, stripe.y, stripe.end, stripe.y);
-      // }
-
-        p.strokeWeight(p.max(0, p.noise(5000+ stripe.start/100, 5000 - tick/160  + stripe.y/100, tick/200) * 20 - 6));
-        p.line(stripe.start, stripe.y, stripe.end, stripe.y);
-      
-    }
-    tick++;
-  }
-
-  function add_stripe_row (ypos, row_length) {
-    //let length = p.max(0, p.randomGaussian(mean_length, deviation));
-    let length = p.random(min_length,max_length);
-    let start = -.5 * row_length;
-    let end = start + length;
-    while (end < row_length / 2 - space - min_length) {
-      stripes.push({y:ypos, start:start, end:end});
-      //length = p.max(0,p.randomGaussian(mean_length, deviation));
-      length = p.random(min_length,max_length);
-      start = end + space;
-      end = start + length;
-    }
-    stripes.push({y:ypos, start:start, end:row_length / 2});
-  }
-
-  p.keyPressed = function () {
-    console.log(p.keyCode);
-    if (p.keyCode === 80) {
-      p.saveCanvas();
-    }
-  }
+function setup() {
+  createCanvas(710, 400);
+  noStroke();
+  rectMode(CENTER);
 }
 
-new p5(sketch);
+function draw() {
+  background(0);
+
+  let ang1 = radians(angle1);
+  let ang2 = radians(angle2);
+
+  let x1 = width / 2 + scalar * cos(ang1);
+  let x2 = width / 2 + scalar * cos(ang2);
+
+  let y1 = height / 2 + scalar * sin(ang1);
+  let y2 = height / 2 + scalar * sin(ang2);
+
+  fill(255);
+  rect(width * 0.5, height * 0.5, 140, 140);
+
+  fill(0, 102, 153);
+  ellipse(x1, height * 0.5 - 120, scalar, scalar);
+  ellipse(x2, height * 0.5 + 120, scalar, scalar);
+
+  fill(255, 204, 0);
+  ellipse(width * 0.5 - 120, y1, scalar, scalar);
+  ellipse(width * 0.5 + 120, y2, scalar, scalar);
+
+  angle1 += 2;
+  angle2 += 3;
+}
