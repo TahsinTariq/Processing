@@ -1,43 +1,84 @@
-/*
- * @name Sine Cosine
- * @description Linear movement with sin() and cos().
- * Numbers between 0 and PI*2 (TWO_PI which angles roughly 6.28)
- * are put into these functions and numbers between -1 and 1 are returned.
- * These values are then scaled to produce larger movements.
- */
-let angle1 = 0;
-let angle2 = 0;
-let scalar = 70;
+let sketch = function(p) {
+  let THE_SEED;
+  let number_of_particles = 3500;
+  let number_of_particle_sets = 12;
+  let particle_sets = [];
+  let tick = 0;
 
-function setup() {
-  createCanvas(710, 400);
-  noStroke();
-  rectMode(CENTER);
-}
+  let palette;
 
-function draw() {
-  background(0);
+  p.setup = function() {
+    p.createCanvas(1200, 1200);
+    THE_SEED = p.floor(p.random(9999999));
+    p.randomSeed(THE_SEED);
+    p.background('#111');
 
-  let ang1 = radians(angle1);
-  let ang2 = radians(angle2);
+    palette = [
+      p.color(254, 242, 145, 20),
+      p.color(253, 198, 103, 20),
+      p.color(182, 245, 200, 20),
+      p.color(84, 146, 76, 20),
+      p.color(221, 124, 81, 20),
+      p.color(253, 158, 149, 20),
+      p.color(112, 184, 214, 20)
+    ];
 
-  let x1 = width / 2 + scalar * cos(ang1);
-  let x2 = width / 2 + scalar * cos(ang2);
+    for (var j = 0; j < number_of_particle_sets; j++) {
+      let ps = [];
+      let col = palette[p.floor(p.random(palette.length))];
+      for (var i = 0; i < number_of_particles; i++) {
+        ps.push(
+          new Particle(p.randomGaussian(p.width / 2, 150), p.randomGaussian(p.height / 2, 150), p.random(p.TAU), col)
+        );
+      }
+      particle_sets.push(ps);
+    }
+  };
 
-  let y1 = height / 2 + scalar * sin(ang1);
-  let y2 = height / 2 + scalar * sin(ang2);
+  p.draw = function() {
+    particle_sets.forEach(function(particles, index) {
+      particles.forEach(function(particle) {
+        particle.update(index);
+        particle.display(index);
+      });
+    });
+  };
 
-  fill(255);
-  rect(width * 0.5, height * 0.5, 140, 140);
+  p.keyPressed = function() {
+    if (p.keyCode === 80) p.saveCanvas('sketch_' + THE_SEED, 'jpeg');
+  };
 
-  fill(0, 102, 153);
-  ellipse(x1, height * 0.5 - 120, scalar, scalar);
-  ellipse(x2, height * 0.5 + 120, scalar, scalar);
+  class Particle {
+    constructor(x, y, phi, col) {
+      this.pos = p.createVector(x, y);
+      this.altitude = 0;
+      this.val = 0;
+      this.angle = phi;
+      this.col = col;
+    }
 
-  fill(255, 204, 0);
-  ellipse(width * 0.5 - 120, y1, scalar, scalar);
-  ellipse(width * 0.5 + 120, y2, scalar, scalar);
+    update(index) {
+      this.pos.x += p.cos(this.angle);
+      this.pos.y += p.sin(this.angle);
 
-  angle1 += 2;
-  angle2 += 3;
-}
+      let nx = 1.1 * p.map(this.pos.y, 0, p.height, 4, 0.2) * p.map(this.pos.x, 0, p.width, -1, 1);
+      let ny = 3.1 * p.map(this.pos.y, 0, p.height, 4, 0.2) * p.map(this.pos.y, 0, p.height, -1, 1);
+
+      this.altitude = p.noise(nx + 423.2, ny - 231.1);
+      this.val = (this.altitude + 0.035 * (index - number_of_particle_sets / 2)) % 1;
+      this.angle += 3 * p.map(this.val, 0, 1, -1, 1);
+    }
+
+    display(index) {
+      if (this.val > 0.485 && this.val < 0.515) {
+        p.stroke(this.col);
+        p.push();
+        p.translate(this.pos.x, this.pos.y + 50 - this.altitude * 100 * p.map(this.pos.y, 0, p.height, 0.2, 4));
+        p.rotate(this.angle);
+        p.point(0, 0);
+        p.pop();
+      }
+    }
+  }
+};
+new p5(sketch);
