@@ -1,15 +1,15 @@
 from block_VIA import *
 iter = 1
-# grid = [
-#     ["b",  0,  0, "p"],
-#     ["b","b","b", "n"],
-#     ["b","b",  "b","b"]
-# ]
 grid = [
     [0,  0,  0, "p"],
     [0,"b",0, "n"],
-    [0,  0,  0,0]
+    [0,"b", 0,0,"p"]
 ]
+# grid = [
+#     [0,  0,  0, "p"],
+#     [0,"b",0, "n"],
+#     [0,  0,  0,0]
+# ]
 UP = (0, -1)
 DOWN = (0, 1)
 LEFT = (-1, 0)
@@ -79,8 +79,8 @@ def setup():
 
 def draw():
     global agrid, iter
-    # noLoop()
-    agrid = update(agrid)
+    noLoop()
+    # agrid = update(agrid)
     for i in range(0, w, rez):
         for j in range(0, h, rez):
             if agrid[j / rez][i / rez].val == 'p':
@@ -90,7 +90,7 @@ def draw():
             elif agrid[j / rez][i / rez].val == "b":
                 fill(45, 80, 90)
             else:
-                g = map(agrid[j / rez][i / rez].pval, 0, 1, 0, 100)
+                g = map(agrid[j / rez][i / rez].val, 0, 1, 0, 100)
                 fill(122, 90, g)
             rect(i, j, rez, rez)
             textAlign(CENTER, CENTER)
@@ -98,13 +98,15 @@ def draw():
             textSize(22)
             pushMatrix()
             translate(rez / 2, rez / 2)
-            text(agrid[j / rez][i / rez].pval, i, j)
+            if agrid[j / rez][i / rez].isDigit:
+                text(agrid[j / rez][i / rez].val, i, j)
+            else: text(agrid[j / rez][i / rez].pval, i, j)
             if agrid[j / rez][i / rez].isDigit:
                 agrid[j / rez][i / rez].showDir(i,j)
             popMatrix()
+    agrid = update(agrid)
     if iter ==100:
         noLoop()
-    delay(50)
+    delay(500)
 def mousePressed():
-    print(iter)
     redraw()

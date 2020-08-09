@@ -21,5 +21,5 @@ class block:
             rotate(PI)
         rotate(HALF_PI * a[0])
         translate(0,-65)
-        circle(0,0,20)
+        ellipse(0,0,20,20)
         popMatrix()
