@@ -1,9 +1,10 @@
 from block_VIA import *
 iter = 1
 grid = [
-    [0,  0,  0, "p"],
-    [0,"b",0, "n"],
-    [0,"b", 0,0,"p"]
+    ["p",   0,  0,  0, "n"],
+    [  0, "b",  0,  0, "b"],
+    [  0, "b",  0,  0, "p"],
+    [  0,   0,  0,  0, "n"]
 ]
 # grid = [
 #     [0,  0,  0, "p"],
@@ -71,6 +72,7 @@ def setup():
     global agrid
     colorMode(HSB, 360,100,100)
     stroke(0,100,0)
+    noStroke()
     agrid = []
     for i in range(len(grid)):
         agrid.append([])
@@ -79,8 +81,7 @@ def setup():
 
 def draw():
     global agrid, iter
-    noLoop()
-    # agrid = update(agrid)
+    # noLoop()
     for i in range(0, w, rez):
         for j in range(0, h, rez):
             if agrid[j / rez][i / rez].val == 'p':
