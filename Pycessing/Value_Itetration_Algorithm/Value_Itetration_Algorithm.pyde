@@ -11,6 +11,11 @@ grid = [
 #     [0,"b",0, "n"],
 #     [0,  0,  0,0]
 # ]
+# grid = [
+#     [random(1), random(1),random(1), "p"],
+#     [random(1),"b",random(1), "n"],
+#     [random(1),random(1),random(1),random(1)]
+# ]
 UP = (0, -1)
 DOWN = (0, 1)
 LEFT = (-1, 0)
@@ -108,6 +113,6 @@ def draw():
     agrid = update(agrid)
     if iter ==100:
         noLoop()
-    delay(500)
+    delay(100)
 def mousePressed():
     redraw()
