@@ -1,9 +1,9 @@
-int n  = 100;
+int n  = 1000;
 float radius = 30;
 Ball[] b = new Ball[n];
-void settings() {  
-  size(640, 480);
-  smooth(8);
+void settings() {
+  // size(640, 480);
+  fullScreen(P2D, 2);
 }
 void setup() {
   for (int i =0; i< n; i++) {

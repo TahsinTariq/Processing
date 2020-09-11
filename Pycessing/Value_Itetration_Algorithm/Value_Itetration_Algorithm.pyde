@@ -89,14 +89,15 @@ def draw():
     # noLoop()
     for i in range(0, w, rez):
         for j in range(0, h, rez):
-            if agrid[j / rez][i / rez].val == 'p':
+            pos = agrid[j / rez][i / rez]
+            if pos.val == 'p':
                 fill(250,80,90)
-            elif agrid[j / rez][i / rez].val == "n":
+            elif pos.val == "n":
                 fill(0, 80, 90)
-            elif agrid[j / rez][i / rez].val == "b":
+            elif pos.val == "b":
                 fill(45, 80, 90)
             else:
-                g = map(agrid[j / rez][i / rez].val, 0, 1, 0, 100)
+                g = map(pos.val, 0, 1, 0, 100)
                 fill(122, 90, g)
             rect(i, j, rez, rez)
             textAlign(CENTER, CENTER)
@@ -104,15 +105,15 @@ def draw():
             textSize(22)
             pushMatrix()
             translate(rez / 2, rez / 2)
-            if agrid[j / rez][i / rez].isDigit:
-                text(agrid[j / rez][i / rez].val, i, j)
-            else: text(agrid[j / rez][i / rez].pval, i, j)
-            if agrid[j / rez][i / rez].isDigit:
-                agrid[j / rez][i / rez].showDir(i,j)
+            if pos.isDigit:
+                text(pos.val, i, j)
+            else: text(pos.pval, i, j)
+            if pos.isDigit:
+                pos.showDir(i,j)
             popMatrix()
     agrid = update(agrid)
     if iter ==100:
         noLoop()
-    delay(100)
+    delay(500)
 def mousePressed():
     redraw()
