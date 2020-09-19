@@ -10,11 +10,15 @@ OpenCV opencv;
 ArrayList<Contour> contours;
 ArrayList<Contour> polygons;
 void settings() {
-  img = loadImage("shaan.jpg");
+  img = loadImage("uttsha2.jpg");
+  //img = loadImage("shaan.jpg");
+  img.resize(img.width/4, img.height/4);
   size(img.width, img.height);
+
 }
 void setup() {
-  win = new PWindow();
+     surface.setLocation(0, 0);
+  //win = new PWindow();
   opencv = new OpenCV(this, img);
   //opencv.gray();
   //opencv.threshold(thresholdOCV);
@@ -24,25 +28,26 @@ void setup() {
 void draw() {
   background(255);
   //opencv = new OpenCV(this, t);
-  //opencv.gray();
+  opencv.gray();
   //opencv.brightness((int)map(mouseY, 0, height, -255, 255));
 
   //opencv.threshold(int(map(mouseX, 0, width, 0, 255)));
-  //println(int(map(mouseX, 0, width, 0, 255)));
-  //println(int(map(mouseY, 0, height, 0, 255)));
-  //dst = opencv.getOutput();
-  //contours = opencv.findContours();
-  //for (Contour contour : contours) {
-  //  contour.draw();
-  //}
-  //image(dst, 0, 0);
+  opencv.threshold(116);
+  println(int(map(mouseX, 0, width, 0, 255)));
+  println(int(map(mouseY, 0, height, 0, 255)));
+  dst = opencv.getOutput();
+  contours = opencv.findContours();
+  for (Contour contour : contours) {
+    contour.draw();
+  }
+  image(dst, 0, 0);
 
-  background(255);
-  thresh2();
-  noFill();
-  //filter(DILATE);
-  //filter(ERODE);
-  //filter(THRESHOLD);
+  //background(255);
+  //thresh();
+  //noFill();
+  filter(DILATE);
+  filter(ERODE);
+  filter(THRESHOLD);
   loadPixels();
   for (int i   = 0; i< width; i++)
     for (int j   = 0; j< height; j++) {
@@ -56,6 +61,7 @@ void draw() {
   tri();
   print("Done");
   noLoop();
+  //saveFrame("frame/####.jpg");
 }
 
 //void mousePressed() {
@@ -63,11 +69,14 @@ void draw() {
 //}
 
 void thresh() {
+  //int i = 0;
   for (int i = 0; i< 255; i++) {
     //0, 43, 122, 142
-    if ((i>=0 && i<44) || (i>=122 && i< 142)) {
+    //if ((i>=0 && i<44) || (i>=122 && i< 142)) {
+      if (i == map(mouseX, 0, width, 0, 255)){
       opencv = new OpenCV(this, img);
       opencv.gray();
+      //opencv.brightness(122);
       opencv.threshold(i);
       dst = opencv.getOutput();
       contours = opencv.findContours();
@@ -96,7 +105,7 @@ void thresh2() {
   contours = opencv.findContours();
   noFill();
   for (Contour contour : contours) {
-    stroke(0);
+    stroke(1);
     beginShape();
     for (PVector point : contour.getPoints()) {
       vertex(point.x, point.y);

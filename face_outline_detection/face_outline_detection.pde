@@ -37,7 +37,7 @@ void draw() {
     for (int i = 0; i < faces.length; i++) {
       fill(255,0,0);
       noStroke();
-      //rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
+      rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
       noFill();
       //int faceWidth = int(faces[i].width*(1+map(mouseX, 0,width, 0,1)));
       int faceWidth = int(faces[i].width*(1+0.5));
