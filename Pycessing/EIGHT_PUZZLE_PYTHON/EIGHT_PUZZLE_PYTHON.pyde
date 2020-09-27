@@ -5,29 +5,29 @@ def boardtostring(Board):
             string+=j
     return string
 n = 3
-# board = [["1", "2", "3"], 
-#          ["7", "8", "6"], 
-#          ["4", "5", "0"]]
-board = [["0", "5", "4"], 
-         ["1", "6", "2"], 
-         ["7", "3", "8"]]
-# board = [["1", "2", "3","4"], 
-#          ["5", "6", "7", "8"], 
+board = [["1", "0", "2"],
+        ["4", "5", "3"],
+        ["7", "8", "6"]]
+# board = [["0", "5", "4"],
+#          ["1", "6", "2"],
+#          ["7", "3", "8"]]
+# board = [["1", "2", "3","4"],
+#          ["5", "6", "7", "8"],
 #          ["9", "10", "11", "12"],
 #          ["13", "14", "15", "0"]]
 # board = [["4", "5", "8"], ["1", "0", "3"], ["7", "6", "2"]]
 # board = [["7", "4", "5"], ["1", "0", "6"], ["8", "3", "2"]]
 b = boardtostring(board)
-# Goal = [["1", "2", "3"],
-#         ["4", "5", "6"], 
-#         ["7", "8", "0"]]
-Goal = [["0","1", "2" ],
-        ["3","4", "5"], 
-        ["6", "7", "8"]]
+Goal = [["1", "2", "3"],
+        ["4", "5", "6"],
+        ["7", "8", "0"]]
+# Goal = [["0","1", "2" ],
+#         ["3","4", "5"],
+#         ["6", "7", "8"]]
 goal = boardtostring(Goal)
 def setup():
   size(600, 600)
-  
+
 def draw():
   #-------------------------------------Drawing Grid---------------------------------------#
   background(255)
@@ -51,26 +51,26 @@ def draw():
         fill(255, 150, 190)
         textAlign(CENTER)
         text(spot, x, y)
-#-------------------------------Rest of the freaking thing-----------------------------------#  
+#-------------------------------Rest of the freaking thing-----------------------------------#
 def keyPressed() :
     i = 1
     j = 0
     for I in range(0,n):
         for J in range(0,n):
-            if board[I][J] == "0": 
+            if board[I][J] == "0":
                 i = I
                 j = J
     println(str(key)+" " +str(i)+" " + str(j))
     if key =='w' and i-1 >=0 :
         swap(i, j, i-1, j)
-    
+
     if key =='s' and i+1<n:
         swap(i, j, i+1, j)
-    
-    if key =='a' and j-1 >=0: 
+
+    if key =='a' and j-1 >=0:
         swap(i, j, i, j-1)
-    
-    if key =='d' and j +1 < n: 
+
+    if key =='d' and j +1 < n:
         swap(i, j, i, j+1)
     if key =='r':
         b = boardtostring(board)
@@ -112,7 +112,7 @@ def AStar(v1 , v2):
     def route(v1, v2):
         if parents[v2] != 'NONE':
             route(v1, parents[v2])
-        print(v2)
+        print(v2, h(v2))
         rout.append(v2)
     parents[v1] = "NONE"
     gcost[v1] = 0
@@ -120,24 +120,29 @@ def AStar(v1 , v2):
     queue[v1] = fcost[v1]
     def lowestCost(d1):
         hash_ = generatechild(d1);
-        # print('             HASH          ',hash_);
+        # print('HASH : ',hash_)
         for n, c in hash_.items():
+            # print(n, c);
+            # print(gcost[d1], gcost[n]);
             if c + gcost[d1] < gcost[n] and n not in searched:
+                # print("updating costs and parents")
                 gcost[n] = c + gcost[d1]
                 fcost[n] = gcost[n] + h(n)
                 parents[n] = d1
+                # print(gcost)
+                # print(fcost)
+                # print(parents)
                 if n not in queue.keys():
+                    # print("adding to queue")
                     queue[n] = fcost[n]
     while queue:
+        # print("queue   : ", queue)
         x = sorted(queue, key=queue.get, reverse=True)
-        # print("QUWUW   :   "+ str(queue))
+        # print("Sorted : ", x)
         node= x.pop()
+        # print("Popped node: ",node)
         queue.pop(node)
         searched.append(node)
-        # println("Parents :  " + str(parents))
-        # println("Gcost :    " + str(gcost))
-        # println("fcost :    " + str(fcost))
-        # print("queue :    " + str(queue))
         if node == v2:
             try:
                 print("found")
@@ -145,7 +150,6 @@ def AStar(v1 , v2):
             except Exception as e:
                 print('No path exists')
             return None
-        # print("\nsearching : ", node, " /\tfcost:", fcost[node])
         lowestCost(node)
     print('NO path Found')
 def h(v1):
@@ -166,11 +170,11 @@ def generatechild(node):
     def move( a,  b,  c,  d):
         t = no[a][b]
         no[a][b]= no[c][d]
-        no[c][d] = t 
+        no[c][d] = t
     j = 0
     for I in range(0,n):
         for J in range(0,n):
-            if no[I][J] == "0": 
+            if no[I][J] == "0":
                 i = I
                 j = J
     if i-1 >=0 :
@@ -185,13 +189,13 @@ def generatechild(node):
         child[name] = h(name)
         gcost[name] = 999999
         move(i, j, i+1, j)
-    if j-1 >=0: 
+    if j-1 >=0:
         move(i, j, i, j-1)
         name = boardtostring(no)
         child[name] = h(name)
         gcost[name] = 999999
         move(i, j, i, j-1)
-    if j +1 < n: 
+    if j +1 < n:
         move(i, j, i, j+1)
         name = boardtostring(no)
         child[name] = h(name)
