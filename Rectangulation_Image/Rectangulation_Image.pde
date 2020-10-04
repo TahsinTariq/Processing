@@ -17,8 +17,8 @@ void draw() {
     for (int j=0; j<height; j+=detail) {
       PImage newImg = img.get(i, j, detail, detail);
       fill(extractColorFromImage(newImg));
-      //rect(i, j, detail, detail);
-      ellipse(i,j,detail*0.9, detail*0.9);
+      rect(i, j, detail, detail);
+      //ellipse(i,j,detail*0.9, detail*0.9);
     }
   }
 }
