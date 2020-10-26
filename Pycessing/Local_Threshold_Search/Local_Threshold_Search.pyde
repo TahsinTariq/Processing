@@ -4,9 +4,9 @@ distance = 100
 r = 20
 sPts = []
 colors = []
-n = 500     
-rec = False 
-numberOfWalkers = 10  
+n = 500
+rec = False
+numberOfWalkers = 10
 angle = .5
 def setup():
     # size(640, 480)
