@@ -33,7 +33,7 @@ def setup():
 	colorMode(HSB, 360,100,100)
 	# for i in range(10000):
 	# 	points.append((random(width),random(height)))
-	# 	col.append(color(random(360), random(60,80), random(85,95)))
+		# col.append(color(random(360), random(60,80), random(85,95)))
 
 	points = poisson_disc_samples(width, height, r=50, k=30)
 	# points = [(212.9808914965057, 343.53093953960195), (395.3985559096435, 868.0178032991112), (522.175139547924, 179.5220465736472), (583.6915850791283, 572.9826610428377), (866.0022315529168, 244.96615099406287), (883.4946980451499, 934.856196648084), (933.3507409663016, 588.4252872530875)]
