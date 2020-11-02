@@ -40,17 +40,18 @@ def draw():
 	tri = triangles.get_triangles()
 
 	pg.beginDraw()
+	pg.colorMode(HSB, 360,100,100)
 	pg.strokeWeight(2)
 	pg.strokeCap(ROUND)
 	pg.strokeJoin(ROUND)
 	# pg.noFill()
 	pg.fill(125)
-	pg.background(255)
+	pg.background(0,0,100)
 	# pg.translate(map(mouseX, 0, width, -width, width), mouseY)
 	pg.translate(0, height/2, -500)
 	pg.rotateX(PI/3)
 	# pg.rotateZ(frameCount*0.01)
-	pg.stroke(0)
+	pg.stroke(0, 100, 0)
 
 	for t in range(len(tri)):
 		pg.beginShape()
@@ -60,6 +61,7 @@ def draw():
 				z = noise(e[0]/factor, e[1]/factor)*maxHeight
 			if not 50<e[0]<(width*2-50) and not 500<e[1]<(height+200-50):
 				z = 0
+			pg.fill(map(z, 0, 1, 0, 360), 75, 90)
 			pg.vertex(map(e[0], 0, width*2, -width/2, width+ width/2), e[1], z)
 		pg.endShape(CLOSE)
 
