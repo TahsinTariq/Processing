@@ -10,9 +10,9 @@ r = {}
 rec = False
 factor = 300
 maxHeight = 500
-
+scale = 0.5
 def setup():
-	global points, tri, videoExport, pg, r, factor
+	global points, tri, videoExport, pg, r, factor, scale
 	fullScreen(P3D)
 
 	if rec:
@@ -31,12 +31,16 @@ def setup():
 	pts = poisson_disc_samples(pg.width*2, pg.height+200, r=30, k=30)
 	for p in pts:
 		points.append([p[0], p[1]])
+	points.append([0,0])
+	points.append([0,height])
+	points.append([width,0])
+	points.append([width, height])
 
 def draw():
 	triangles = Delaunator(points)
-	hull = convex_hull(points)
+	# hull = convex_hull(points)
 	# hull.append(convex_hull(points - hull))
-	hull.append(convex_hull([item for item in points if item not in hull]))
+	# hull.append(convex_hull([item for item in points if item not in hull]))
 	tri = triangles.get_triangles()
 
 	pg.beginDraw()
@@ -44,30 +48,41 @@ def draw():
 	pg.strokeWeight(2)
 	pg.strokeCap(ROUND)
 	pg.strokeJoin(ROUND)
-	# pg.noFill()
 	pg.fill(125)
 	pg.background(0,0,100)
-	# pg.translate(map(mouseX, 0, width, -width, width), mouseY)
-	pg.translate(0, height/2, -500)
+	pg.scale(scale)
+	X = map(mouseX, 0, width, -width, width)
+	# pg.translate(0, mouseY)
+	pushMatrix()
+	pg.translate(map(mouseX, 0, width, -width, width), mouseY,0)
+	pg.sphere(200)
+	popMatrix()
+	print("translate : " + str(X)+ " " + str(mouseY))
+	pg.translate(width/2, height/2, -500)
+	# pg.translate(0, 0, -500)
 	pg.rotateX(PI/3)
-	# pg.rotateZ(frameCount*0.01)
+	pg.rotateZ(frameCount*0.01)
 	pg.stroke(0, 100, 0)
 
 	for t in range(len(tri)):
 		pg.beginShape()
 		for e in tri[t]:
-			z = 0
-			if e not in hull:
-				z = noise(e[0]/factor, e[1]/factor)*maxHeight
-			if not 50<e[0]<(width*2-50) and not 500<e[1]<(height+200-50):
-				z = 0
-			pg.fill(map(z, 0, 1, 0, 360), 75, 90)
+			# z = 0
+			zoff = 0
+			# if e not in hull:
+			# zoff = map(mouseX, 0, width, 0, 5000)
+			z = noise((e[0])/factor, e[1]/factor, zoff/factor)*maxHeight
+			# if not 50<e[0]<(width*2-50) and not 50<e[1]<(height+200-50):
+			# 	z = 0
+			zcol = map(z, 0, maxHeight, 0, 360)
+			# print(zcol)
+			pg.fill(zcol, 75, 90)
 			pg.vertex(map(e[0], 0, width*2, -width/2, width+ width/2), e[1], z)
 		pg.endShape(CLOSE)
 
 	for i in range(len(points)):
-		points[i][0]+=map(mouseX, 0, width, -10, 10)
-		points[i][1]+=map(mouseY, 0, height, -10, 10)
+		# points[i][0]+=map(mouseX, 0, width, -10, 10)
+		# points[i][1]+=map(mouseY, 0, height, -10, 10)
 		if points[i][0]> width*2:
 			points[i][0]-= width*2
 		if points[i][0]<0:
@@ -77,6 +92,7 @@ def draw():
 		if points[i][1]<0:
 			points[i][1]+= height+200
 
+	# pg.sphere(100)
 	pg.endDraw()
 	image(pg, 0, 0)
 	if rec:
@@ -86,3 +102,12 @@ def quitvid():
 	if rec:
 		videoExport.endMovie()
 		exit()
+
+
+def keyPressed():
+	global scale
+	if keyIsDown('q'):
+		scale*=0.99
+	if key=='e':
+		scale/=0.99
+	print("Scale :" + str(scale))
