@@ -7,38 +7,40 @@ def setup():
     # noiseSeed(1400)
 def draw():
     # PerlinIn1D()
-    PerlinIn1D_2()
-    # PerlinIn2D()
-    
-    
-    
-    
+    # PerlinIn1D_2()
+    PerlinIn2D()
+
+
+
+
 def PerlinIn2D():
+    # translate(width/2, height/2)
+    scale(0.25)
     n = 160
     inc = width/n
     global off1, off2, start
     # off1 = start
     off1 = map(mouseX, 0, width, 0, -10)
-    
+
     # background(0, 0,100)
     # noFill()
     noStroke()
     # fill(0,0,0)
-    for x in range(0, width, inc):
+    for x in range(0, width*4, inc):
         off2 = map(mouseY, 0, height, 0, -10)
-        for y in range(0, width, inc):
-            # f = map(noise(off1,off2, start), 0,1, 0, 100)
-            f = map(noise(cos(off1), cos(off2), (start)), 0,1, 0, 100)
+        for y in range(0, height*4, inc):
+            f = map(noise(off1,off2, start), 0,1, 0, 100)
+            # f = map(noise(cos(off1), cos(off2), (start)), 0,1, 0, 100)
             # f = int(map(f, 0,100,0,2))*100
             f = int(map(f, 0,100,0,8))
             f = map(f, 0,8, -20, 300)
             # fill(0,0,f)
             fill(f, 100, 100)
             rect(x, y, inc, inc)
-            off2 +=0.05
-        off1+=0.05
-    start+=0.05
-    
+            off2 +=0.005
+        off1+=0.005
+    start+=0.005
+
 def PerlinIn1D():
     global off1, start
     off1 = start
@@ -61,7 +63,7 @@ def PerlinIn1D():
     vertex(width, height/2)
     start+=0.005
     endShape()
-    
+
 def PerlinIn1D_2():
     global off1, start
     off1 = start
