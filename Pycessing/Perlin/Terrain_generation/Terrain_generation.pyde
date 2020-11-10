@@ -6,7 +6,7 @@ from convex_hull import *
 
 points = []
 tri = []
-rec = False
+rec = True
 factor = 300
 maxHeight = 500
 scale = 1
@@ -16,8 +16,9 @@ perspective = [False, 10]
 noise_offset = [ 0, 0, 0]
 
 def setup():
-	global points, tri, videoExport, pg, factor, scale, delunay_size
+	global points, tri, videoExport, pg, pg2, factor, scale, delunay_size
 	fullScreen(P3D, 2)
+	background(0,0,255)
 
 	delunay_size = (width*2, height+200)
 
@@ -39,10 +40,22 @@ def setup():
 	pg.strokeWeight(2)
 	pg.strokeCap(ROUND)
 	pg.strokeJoin(ROUND)
-	pg.fill(125)
+	pg.fill(0, 0,100)
 	pg.endDraw()
 
-	pts = poisson_disc_samples(delunay_size[0], delunay_size[1], r=50, k=30)
+	pg2 = createGraphics(width, height, P3D)
+	pg2.beginDraw()
+	pg2.colorMode(HSB, 360,100,100)
+	pg2.stroke(0, 100, 0)
+	pg2.strokeWeight(2)
+	pg2.strokeCap(ROUND)
+	pg2.strokeJoin(ROUND)
+	pg2.fill(0, 100, 0)
+	pg2.background(0, 100, 100)
+	# pg.clear()
+	pg2.endDraw()
+
+	pts = poisson_disc_samples(delunay_size[0], delunay_size[1], r=100, k=30)
 	for p in pts:
 		points.append([p[0], p[1]])
 	points.append([0,0])
@@ -54,22 +67,38 @@ def draw():
 	triangles = Delaunator(points)
 	tri = triangles.get_triangles()
 	pg.beginDraw()
+	# pg.clear()
 
-	pg.background(0,0,100)
+	pg.background(0, 0,100)
 	pg.scale(scale)
 	pg.stroke(0, 100, 0)
-	# pg.noStroke()
+	# pg.fill(0, 0,100)
+
+	pg2.beginDraw()
+	pg2.background(0, 0, 0)
+	# pg2.ellipse(width/2, height/2, 500,500)
+	pg2.scale(scale)
+	pg2.stroke(0, 0, 100)
 
 	pg.pushMatrix()
 	pg.translate(width/2, height)
 	pg.rotateX(x_rot)
 	pg.translate(0, -height/2)
+
+	pg2.pushMatrix()
+	pg2.translate(width/2, height)
+	pg2.rotateX(x_rot)
+	pg2.translate(0, -height/2)
 	if z_rot[0]:
 		z_rot[2] = z_rot[2] + z_rot[1]*0.1
 	pg.rotateZ(z_rot[2])
+
+	pg2.rotateZ(z_rot[2])
 	updateNoise()
 	for t in range(len(tri)):
 		pg.beginShape()
+
+		pg2.beginShape()
 		for e in tri[t]:
 
 			if not perspective[0]:
@@ -83,19 +112,32 @@ def draw():
 			if e[0] < shiftY or e[0] > delunay_size[0] -shiftY or e[1] < shiftY or e[1] > delunay_size[1] -shiftY:
 				z = 0
 
-			zcol = map(z, 0, maxHeight, -20, 120)
-			pg.fill(zcol, 75, 90)
+			zcol = map(z, 0, maxHeight, 130, 340)
+			# pg.fill(zcol, 75, 90)
+			# pg2.fill(0, 75, 90)
 			xpos = map(e[0], 0, delunay_size[0], -delunay_size[0]/2, delunay_size[0]/2)
 			ypos = map(e[1], 0, delunay_size[1], height/2-delunay_size[1]-shiftY*perspective[1], height/2 +shiftY*perspective[1])
 			pg.vertex(xpos, ypos, z)
+
+			pg2.vertex(xpos, ypos, z)
+		pg2.endShape(CLOSE)
 		pg.endShape(CLOSE)
+
+	pg2.popMatrix()
 	pg.popMatrix()
+
 
 	updatePoints()
 
+	pg2.endDraw()
 	pg.endDraw()
+	# pg2.background(pg)
+
 	image(pg, 0, 0)
-	if rec:
+
+	image(pg2.get(width/2, 0, width/2, height), width/2, 0)
+	# image(pg.get(0, 0, width/2, height), 0, 0)
+	if rec and frameCount>20:
 		videoExport.saveFrame()
 
 def updatePoints():
