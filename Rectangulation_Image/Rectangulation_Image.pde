@@ -1,8 +1,10 @@
 PImage img;
 int n = 50;
 void settings() {
-  img = loadImage("StarryNight.jpg");
+  //img = loadImage("StarryNight.jpg");
+  img = loadImage("shaan.jpg");
   size(img.width, img.height);
+  
 }
 
 void setup() {
@@ -10,14 +12,20 @@ void setup() {
 }
 void draw() {
   //scale(2);
+  imageMode(CENTER);
   background(255);
   int detail = width/int(map(mouseX, 0, width, 1, 100));
   noStroke();
-  for (int i=0; i<width; i+=detail) {
-    for (int j=0; j<height; j+=detail) {
+  for (int i=0; i<width; i+=detail/2) {
+    for (int j=0; j<height; j+=detail/2) {
       PImage newImg = img.get(i, j, detail, detail);
       fill(extractColorFromImage(newImg));
-      rect(i, j, detail, detail);
+      pushMatrix();
+      translate(i+detail/2, j+detail/2);
+      rotate(map(mouseY,0, height, -PI, PI));
+      //rect(0,0, detail, detail);
+      image(newImg, 0, 0);
+      popMatrix();
       //ellipse(i,j,detail*0.9, detail*0.9);
     }
   }

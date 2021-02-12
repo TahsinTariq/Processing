@@ -23,7 +23,7 @@ def setup():
 	delunay_size = (width*2, height+200)
 
 	if rec:
-		dst = "output/" + str(hour()) + "_" + str(minute()) +"_" + str(second()) + "_" + str(millis())
+		# dst = "output/" + str(hour()) + "_" + str(minute()) +"_" + str(second()) + "_" + str(millis())
 		# videoExport = VideoExport(this,dst+".mp4")
 		videoExport = VideoExport(this)
 		videoExport.startMovie()

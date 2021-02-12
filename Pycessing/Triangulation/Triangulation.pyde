@@ -47,9 +47,9 @@ def draw():
 	# noLoop()
 	global n, n2
 	background(0)
-	translate(mouseX, mouseY)
-	# if n<= len(points):
-	# 	n+=1
+	# translate(mouseX, mouseY)
+	if n<= len(tri):
+		n+=1
 	fill(0,0,100)
 	for p in points:
 		ellipse(p[0], p[1], 5, 5)
@@ -58,7 +58,7 @@ def draw():
 	strokeWeight(2)
 	strokeCap(ROUND)
 	strokeJoin(ROUND)
-	for t in range(len(tri)):
+	for t in range(n):
 		beginShape()
 		for e in tri[t]:
 			vertex(e[0], e[1])
